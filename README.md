@@ -49,14 +49,8 @@ docker ps
 # Ver logs (ejemplo)
 docker logs -f generador
 
-# Logs de un servicio
-docker-compose logs -f generador
-
-# Reiniciar
-docker-compose restart
-
 # Entrar en contenedor
-docker-compose exec generador sh
+docker exec -it generador sh
 ```
 
 ## 🔗 Comunicación entre Servicios
@@ -84,7 +78,6 @@ docker/
 │   └── Dockerfile
 ├── Estructura institucional/ (Nginx 80)
 │   └── Dockerfile
-├── docker-compose.yml
 ├── README.md
 ├── QUICKSTART.md
 ├── .env.example
