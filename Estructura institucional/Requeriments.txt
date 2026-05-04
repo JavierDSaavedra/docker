@@ -1,0 +1,3 @@
+nginx
+# Opcional: agregar bind9 si se requiere DNS local
+# bind9

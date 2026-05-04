@@ -1,0 +1,10 @@
+react
+react-dom
+vite
+@vitejs/plugin-react
+react-router-dom
+axios
+zod
+zustand
+tailwindcss
+typescript

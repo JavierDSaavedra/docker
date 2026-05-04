@@ -1,0 +1,8 @@
+astro
+react
+react-dom
+typescript
+tailwindcss
+@astrojs/react
+@astrojs/tailwind
+sharp

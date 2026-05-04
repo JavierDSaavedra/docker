@@ -1,0 +1,39 @@
+# Dependencias
+**/node_modules/
+**/npm-debug.log
+**/yarn-error.log
+
+# Compilación y build
+**/dist/
+**/build/
+**/.next/
+**/out/
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+logs/
+*.log
+
+# Cachés
+**/.cache/
+**/temp/
+**/tmp/
+
+# Volúmenes Docker
+dns-data/
+nginx-data/
