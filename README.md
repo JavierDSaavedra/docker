@@ -1,11 +1,5 @@
-# Docker - UBB
-
-4 microservicios conectados en una red simple.
-
-## 🚀 Iniciar
 
 ```bash
-# Construir imágenes (una por servicio)
 docker build -t generador ./Generador
 docker build -t usuario ./Usuario
 docker build -t plantillas ./Plantillas
@@ -84,3 +78,41 @@ docker/
 └── .gitignore
 ```
 # docker
+
+## 🧩 Despliegue con Docker Compose
+
+Se agregó un archivo `docker-compose.yml` en la raíz para orquestar los servicios
+existentes (`Generador`, `Usuario`, `Plantillas`, `Estructura institucional`).
+
+Pasos rápidos:
+
+1. Copiar la plantilla de variables de entorno:
+
+```bash
+cp .env.example .env
+# Edita `.env` si necesitas cambiar puertos o credenciales
+```
+
+2. Construir y levantar todos los servicios:
+
+```bash
+docker compose up --build
+```
+
+3. Acceder desde el navegador:
+
+- Generador: http://localhost:3000
+- Usuario: http://localhost:5173
+- Plantillas: http://localhost:8080
+- Infraestructura (Nginx/static): http://localhost:80
+
+Notas:
+- Si tu proyecto necesita una base de datos, descomenta y ajusta la sección `db` en
+	`docker-compose.yml` y completa los valores en `.env`.
+- El `docker-compose.yml` usa variables de entorno con valores por defecto,
+	por lo que el proyecto puede levantarse aun sin un `.env` si no necesitas
+	cambiar los puertos por defecto.
+
+Si quieres, puedo también:
+- añadir un `healthcheck` más específico para cada servicio,
+- o ejecutar `docker compose up` desde aquí para probar (necesitaría permiso).
