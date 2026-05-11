@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   generador:
     build:
@@ -52,19 +50,6 @@ services:
     networks:
       - frontend_network
 
-# Optional DB service (uncomment if your project needs a database)
-#  db:
-#    image: postgres:15-alpine
-#    container_name: mi_proyecto_db
-#    restart: unless-stopped
-#    environment:
-#      POSTGRES_USER: ${POSTGRES_USER:-app_user}
-#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-#      POSTGRES_DB: ${POSTGRES_DB:-app_db}
-#    volumes:
-#      - db_data:/var/lib/postgresql/data
-#    networks:
-#      - backend_network
 
 networks:
   backend_network:
