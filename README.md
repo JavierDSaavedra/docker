@@ -6,11 +6,12 @@ Orquestación de contenedores para el proyecto institucional de la Facultad de C
 
 Este proyecto está compuesto por los siguientes servicios:
 
-- **frontend**: Frontend principal (React + Vite) - Puerto 3001
+- **taller-desarrollo**: Frontend React + Vite (Taller de Desarrollo) - Puerto 5174
+- **infraestructura**: Frontend estático (Estructura Institucional) - Puerto 3001
 - **generador**: Backend de generación - Puerto 3000  
 - **usuario**: Servicio de usuarios - Puerto 5173
 - **plantillas**: Servicio de plantillas - Puerto 8080
-- **infraestructura**: Nginx (balanceador/proxy) - Puerto 80
+- **nginx**: Proxy inverso - Puerto 80
 
 ## Requisitos Previos
 
@@ -52,11 +53,12 @@ Una vez que todos los contenedores estén levantados, accede a los servicios:
 
 | Servicio | URL | Puerto |
 |----------|-----|--------|
-| Frontend (Taller de Desarrollo) | http://localhost:3001 | 3001 |
+| Frontend (Taller de Desarrollo - React) | http://localhost:5174 | 5174 |
+| Infraestructura (Estructura Institucional) | http://localhost:3001 | 3001 |
 | Generador (Backend) | http://localhost:3000 | 3000 |
 | Usuario | http://localhost:5173 | 5173 |
 | Plantillas | http://localhost:8080 | 8080 |
-| Infraestructura (Nginx) | http://localhost | 80 |
+| Nginx Proxy | http://localhost | 80 |
 
 ## Comandos Útiles
 
