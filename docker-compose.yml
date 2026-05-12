@@ -2,7 +2,7 @@ services:
   # Frontend principal - Taller de Desarrollo
   frontend:
     build:
-      context: ./frontend
+      context: ./Estructura institucional
       dockerfile: Dockerfile
     container_name: taller-frontend
     restart: unless-stopped
@@ -64,6 +64,17 @@ services:
     restart: unless-stopped
     ports:
       - "${INFRA_PORT:-80}:80"
+    networks:
+      - frontend_network
+
+  taller-desarrollo:
+    build:
+      context: ./taller-desarrollo
+      dockerfile: Dockerfile
+    container_name: taller-desarrollo
+    restart: unless-stopped
+    ports:
+      - "${TALLER_FRONTEND_PORT:-5174}:5173"
     networks:
       - frontend_network
 
