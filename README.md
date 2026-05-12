@@ -6,18 +6,19 @@ Orquestación de contenedores para el proyecto institucional de la Facultad de C
 
 Este proyecto está compuesto por los siguientes servicios:
 
-- **frontend**: Frontend principal (React + Vite) - Puerto 3001
-- **generador**: Backend de generación - Puerto 3000  
-- **usuario**: Servicio de usuarios - Puerto 5173
-- **plantillas**: Servicio de plantillas - Puerto 8080
-- **infraestructura**: Nginx (balanceador/proxy) - Puerto 80
+| Servicio | Descripción | Puerto | Tipo |
+|----------|-------------|--------|------|
+| **infraestructura** | Nginx (proxy/balanceador) | 80 | Frontend |
+| **usuario** | Servicio de usuarios (Node.js) | 5173 | Frontend |
+| **generador** | Backend de generación (Node.js) | 3000 | Backend |
+| **plantillas** | Servicio de plantillas (Node.js) | 8080 | Backend |
 
-## Requisitos Previos
+##  Requisitos Previos
 
 - Docker (versión 20.10 o superior)
 - Docker Compose (versión 2.0 o superior)
 
-## Instalación y Ejecución
+##  Instalación y Ejecución
 
 ### 1. Clonar el repositorio
 
@@ -26,13 +27,13 @@ git clone https://github.com/usuario/mi-proyecto.git
 cd mi-proyecto
 ```
 
-### 2. Configurar variables de entorno
+### 2. Configurar variables de entorno (opcional)
 
 ```bash
 cp .env.example .env
 ```
 
-El archivo `.env.example` contiene todas las variables necesarias con valores por defecto. Modifica el `.env` si necesitas cambiar puertos o configuraciones específicas.
+El archivo `.env.example` contiene todas las variables necesarias con valores por defecto. No es necesario modificar `.env` para que funcione con la configuración predeterminada.
 
 ### 3. Levantar los servicios
 
@@ -46,7 +47,92 @@ Para ejecutar en segundo plano:
 docker compose up -d --build
 ```
 
-## Acceso a los Servicios
+##  Acceso a los Servicios
+
+Una vez que todos los contenedores están en ejecución:
+
+- **Frontend Principal (Nginx)**: http://localhost
+- **Servicio de Usuarios**: http://localhost:5173
+- **Generador (Backend)**: http://localhost:3000
+- **Plantillas (Assets)**: http://localhost:8080
+
+##  Verificar que está funcionando
+
+```bash
+# Ver estado de los contenedores
+docker compose ps
+
+# Ver logs de un servicio específico
+docker compose logs -f infraestructura
+docker compose logs -f generador
+docker compose logs -f usuario
+docker compose logs -f plantillas
+```
+
+##  Detener los servicios
+
+```bash
+docker compose down
+```
+
+Para detener y eliminar volúmenes:
+
+```bash
+docker compose down -v
+```
+
+##  Estructura del Repositorio
+
+```
+.
+├── docker-compose.yml           # Configuración de orquestación
+├── .env.example                 # Variables de entorno
+├── README.md                    # Este archivo
+├── Estructura institucional/     # Frontend Nginx
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   ├── index.html
+│   └── assets/
+├── Generador/                   # Backend - Generación
+│   ├── Dockerfile
+│   ├── package.json
+│   └── ...
+├── Usuario/                     # Frontend - Usuarios
+│   ├── Dockerfile
+│   ├── package.json
+│   └── ...
+└── Plantillas/                  # Backend - Plantillas/Assets
+    ├── Dockerfile
+    ├── package.json
+    └── ...
+```
+
+##  Solución de Problemas
+
+### Los contenedores no inician
+
+Verifica los logs:
+```bash
+docker compose logs
+```
+
+### Puerto en uso
+
+Si el puerto 80 está en uso, modifica el `.env`:
+```env
+INFRA_PORT=8000
+```
+
+Luego accede a: http://localhost:8000
+
+### Eliminar y reiniciar desde cero
+
+```bash
+docker compose down -v
+docker system prune -f
+docker compose up --build
+```
+
 
 Una vez que todos los contenedores estén levantados, accede a los servicios:
 
@@ -170,16 +256,8 @@ Luego ejecuta:
 docker compose up -d
 ```
 
-### Ver proceso de construcción detallado
+
 
 ```bash
 docker compose up --build --verbose
 ```
-
-## Contribuciones
-
-Para cambios significativos, por favor abre un issue primero para discutir qué te gustaría cambiar.
-
-## Licencia
-
-Este proyecto es parte del programa académico de la Universidad del Bío-Bío.

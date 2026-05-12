@@ -1,21 +1,29 @@
+version: '3.8'
+
 services:
-  # Frontend principal - Taller de Desarrollo
-  frontend:
+  # Frontend - Nginx (Estructura Institucional)
+  infraestructura:
     build:
-      context: ./frontend
+      context: ./Estructura institucional
       dockerfile: Dockerfile
-    container_name: taller-frontend
+    container_name: infraestructura
     restart: unless-stopped
     ports:
-      - "${FRONTEND_PORT:-3001}:3001"
+      - "${INFRA_PORT:-80}:80"
     networks:
       - frontend_network
+    depends_on:
+      generador:
+        condition: service_healthy
+      usuario:
+        condition: service_started
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3001 || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
+  # Backend - Generador
   generador:
     build:
       context: ./Generador
@@ -29,11 +37,13 @@ services:
     networks:
       - backend_network
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3000/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 10s
 
+  # Frontend - Usuario
   usuario:
     build:
       context: ./Usuario
@@ -42,9 +52,18 @@ services:
     restart: unless-stopped
     ports:
       - "${USUARIO_PORT:-5173}:5173"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
     networks:
       - frontend_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5173/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
+  # Backend - Plantillas
   plantillas:
     build:
       context: ./Plantillas
@@ -53,27 +72,19 @@ services:
     restart: unless-stopped
     ports:
       - "${PLANTILLAS_PORT:-8080}:8080"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
     networks:
       - backend_network
-
-  infraestructura:
-    build:
-      context: ./Estructura institucional
-      dockerfile: Dockerfile
-    container_name: infraestructura
-    restart: unless-stopped
-    ports:
-      - "${INFRA_PORT:-80}:80"
-    networks:
-      - frontend_network
-
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
 networks:
   backend_network:
     driver: bridge
   frontend_network:
     driver: bridge
-
-volumes:
-  db_data:
-    driver: local
